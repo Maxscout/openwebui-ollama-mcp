@@ -6,19 +6,30 @@ services:
     volumes:
       - /containers/ollama:/root/.ollama
     gpus: all
-  openwebui:
-    image: ghcr.io/open-webui/open-webui:main
+  anythingllm:
+    image: mintplexlabs/anythingllm
+    container_name: anythingllm
     ports:
-      - 30001:8080
+      - "30001:3001"
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      # Adjust for your environment
+      - STORAGE_DIR=/app/server/storage
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_PATH=http://127.0.0.1:11434
+      - OLLAMA_MODEL_PREF=qwen3:8b
+      - OLLAMA_MODEL_TOKEN_LIMIT=32768
+      - EMBEDDING_ENGINE=ollama
+      - EMBEDDING_BASE_PATH=http://127.0.0.1:11434
+      - EMBEDDING_MODEL_PREF=nomic-embed-text:latest
+      - EMBEDDING_MODEL_MAX_CHUNK_LENGTH=8192
+      - VECTOR_DB=lancedb
+      - WHISPER_PROVIDER=local
+      - TTS_PROVIDER=native
+      - PASSWORDMINCHAR=8
+      # Add any other keys here for services or settings
+      # you can find in the docker/.env.example file
     volumes:
-      - /mnt/main/containers/open-webui:/app/backend/data
-  mcpo:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    environment: 
-      CONFIG_FILE: /app/config/config.json
-    ports:
-      - 30005:8000
-    volumes:
-      - /mnt/main/containers/mcpo:/app/config
+      - /mnt/main/containers/anythingllm/storage:/app/server/storage
+    restart: always
