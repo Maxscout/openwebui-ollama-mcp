@@ -1,0 +1,22 @@
+services:
+  ollama:
+    image: ollama/ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - /mnt/main/containers/ollama:/root/.ollama
+    gpus: all
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - 30001:8080
+    volumes:
+      - /mnt/main/containers/open-webui:/app/backend/data
+  mcpo:
+    image: groad/mcpo
+    environment: 
+      CONFIG_FILE: /app/config/config.json
+    ports:
+      - 30005:8000
+    volumes:
+      - /mnt/main/containers/mcpo:/app/config
