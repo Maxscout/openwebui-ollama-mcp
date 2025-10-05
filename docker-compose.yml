@@ -16,5 +16,13 @@ services:
     env_file:
       - stack.env
     volumes:
-      - /mnt/main/containers/anythingllm/storage:/app/server/storage
+      - anythingllm_storage:/app/server/storage
     restart: always
+
+volumes:
+  anythingllm_storage:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/main/containers/anythingllm/storage
