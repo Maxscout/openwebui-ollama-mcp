@@ -4,7 +4,7 @@ services:
     ports:
       - 11434:11434
     volumes:
-      - /mnt/main/containers/ollama:/root/.ollama
+      - /containers/ollama:/root/.ollama
     gpus: all
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
