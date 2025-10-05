@@ -13,7 +13,9 @@ services:
     volumes:
       - /mnt/main/containers/open-webui:/app/backend/data
   mcpo:
-    image: groad/mcpo
+    build: 
+      context: .
+      dockerfile: Dockerfile
     environment: 
       CONFIG_FILE: /app/config/config.json
     ports:
